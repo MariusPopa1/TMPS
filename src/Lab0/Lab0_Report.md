@@ -103,4 +103,4 @@ Triangle area: 7.5
 
 ### Conclusion
 
-This simple Java project has provided a clear understanding of the Single Responsibility and Open/Closed principles. The SRP ensures that each class handles one task, while the OCP demonstrates how to extend functionality without altering existing code.
+This Java project is a simple example of the Single Responsibility and Open/Closed principles. The SRP ensures that each class handles one task, while the OCP demonstrates how to extend functionality without changing existing code.
