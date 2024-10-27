@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0cb2af3c-6bdf-413b-9dd5-6ec5fc738638" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Lab0/Lab0_Report.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lab0/Lab0_Report.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Lab1/EmployeeActions/EmployeeFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Lab1/EmployeeActions/EmployeeProfile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Lab1/EmployeeActions/HRManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Lab1/EmployeeTypes/Employee.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Lab1/EmployeeTypes/FullTimeEmployee.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Lab1/EmployeeTypes/PartTimeEmployee.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Lab1/Lab1_Report.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Lab1/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,9 +34,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2niCGNTQmXjnJw5AaZTjakx56nR" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -38,6 +47,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "onboarding.tips.debug.path": "C:/Users/Asus/IdeaProjects/TMPS/src/Main.java"
   }
