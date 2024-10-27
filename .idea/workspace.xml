@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0cb2af3c-6bdf-413b-9dd5-6ec5fc738638" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Lab1/EmployeeActions/EmployeeFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Lab1/EmployeeActions/EmployeeProfile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Lab1/EmployeeActions/HRManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Lab1/EmployeeTypes/Employee.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Lab1/EmployeeTypes/FullTimeEmployee.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Lab1/EmployeeTypes/PartTimeEmployee.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Lab1/Lab1_Report.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Lab1/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="0cb2af3c-6bdf-413b-9dd5-6ec5fc738638" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
