@@ -5,9 +5,11 @@ import java.util.List;
 
 public class HRManager {
     private static HRManager instance;
-    private final List<Employee> employees = new ArrayList<>();
+    private List<Employee> employees;
 
-    private HRManager() {}
+    private HRManager() {
+        this.employees = new ArrayList<>();
+    }
 
     public static HRManager getInstance() {
         if (instance == null) {
