@@ -1,4 +1,5 @@
-package Lab1.EmployeeTypes;
+package Lab2.EmployeeTypes;
+
 
 public class PartTimeEmployee extends Employee {
     public PartTimeEmployee(String name) {
@@ -9,4 +10,7 @@ public class PartTimeEmployee extends Employee {
     public void showDetails() {
         System.out.println("Part-Time Employee: " + name);
     }
+
+    @Override
+    public String getType(){ return "Part-time";}
 }
