@@ -12,5 +12,5 @@ public class FullTimeEmployee extends Employee {
 
     @Override
 
-    public String getType(){ return "FullTime";}
+    public String getType(){ return "Full-Time";}
 }

@@ -1,4 +1,4 @@
-# Creational Design Patterns
+# Structural Design Patterns
 
 
 ## Author: Popa Marius FAF-222
@@ -7,95 +7,94 @@
 
 ## Objectives:
 
-* Get familiar with the Creational DPs;
-* Choose a specific domain;
-* Implement at least 3 CDPs for the specific domain;
+* Extend your project and implement at least 3 SDPs;
+* Keep the files grouped by their responsibilities;
+* Keep it to one client;
 
+## Theoretical Background:
+In software engineering, the Structural Design Patterns are concerned with how classes and objects are composed to form larger structures. Structural class patterns use inheritance to create a hierarchy of classes/abstractions, but the structural object patterns use composition which is generally a more flexible alternative to inheritance.
+
+Some examples of from this category of design patterns are:
+
+* Adapter
+* Bridge
+* Composite
+* Decorator
+* Facade
+* Flyweight
+* Proxy
 
 ## Used Design Patterns:
 
-* Factory Method
+* Decorator
 * Singleton Method
 * Builder
 
 
 ## Implementation
 
-* For my domain I chose an Employee Management System, with 2 types of employees, a
-full-time employee, and a part-time employee, found in the EmployeeTypes folder,and both extend
-the Base employee class.
+* Continuing on the implementation of the previous Employee Management System,
+I started with adding the Decorator Pattern, which extends the Employee class and makes
+use of its already existing methods.
 ``` java
-public class FullTimeEmployee extends Employee {
-    public FullTimeEmployee(String name) {
-        super(name);
+public abstract class EmployeeDecorator extends Employee {
+    protected Employee decoratedEmployee;
+
+    public EmployeeDecorator(Employee employee) {
+        super(employee.getName());
+        this.decoratedEmployee = employee;
+    }
+    @Override
+    public abstract void showDetails();
+    
+}
+```
+While similar to the builder, a decorator adds flavour  on top, which in this case are the Retirement and Health Insurance plans. Usually, the
+decorator pattern would add those features dynamically, but in this case, they are shown in the code
+for visibility. (the dynamic version will be implemented.)
+
+``` java
+public class EmployeeHealthInsurance extends EmployeeDecorator {
+    public EmployeeHealthInsurance(Employee employee) {
+        super(employee);
     }
 
     @Override
     public void showDetails() {
-        System.out.println("Full-Time Employee: " + name);
+        decoratedEmployee.showDetails();
+        System.out.println("Additional Benefit: Health Insurance");
     }
-}
+
 }
 ```
 
+* Everything in my program got a little cluttered by this point, with a bunch of import statements,
+new employee creations in the program, so it makes sense to implement the Facade Pattern and make
+everything in the main file(the client), a little more simplified. I also added the name and type to the builder,
+to make the print a little more detailed.
 
-* Next I added an employee factory, which now makes creating new
-employee types easier in the future and places the object creation
-in a dedicated method, simplifying the process.
-
+New main with less clutter:
 ``` java
-public class EmployeeFactory {
-    public static Employee createEmployee(String type, String name) {
-        return switch (type) {
-            case "FullTime" -> new FullTimeEmployee(name);
-            case "PartTime" -> new PartTimeEmployee(name);
-            default -> throw new IllegalArgumentException("Invalid employee type.");
-        };
-    }
-}
-```
+EmployeeGeneration facade = new EmployeeGeneration();
+        facade.createAndAddEmployee("FullTime", "Diana", null, "555-5678");
+        facade.createAndAddEmployee("PartTime", "Eve", "101 Elm St", null);
 
-* Now we have to manage the resources, in this case, the employees, so I created a Singleton,
-HRManager, which will coordinate the objects in this simple implementation.
-This method contains one instance, a condition which it enforces, and then is able to add new employees and their details to its list
-and show the existing employees.
+        System.out.println("\nAll Employees via Facade:");
+        facade.displayAllEmployees();
 
-``` java
-public class HRManager {
-    private static HRManager instance;
-    private final List<Employee> employees = new ArrayList<>();
-
-    private HRManager() {}
-
-    public static HRManager getInstance() {
-        if (instance == null) {
-            instance = new HRManager();
-        }
-        return instance;
-    }
-
-    public void addEmployee(Employee employee) {
-        employees.add(employee);
-        System.out.println("Employee added: " + employee.getName());
-    }
-
-    public void showAllEmployees() {
-        employees.forEach(Employee::showDetails);
-    }
-}
 
 ```
 
-* Lastly, a Builder is used to construct an EmployeeProfile class, which will take care of
-the simple fields address and contactNumber now added to the employee's profile. Now optional configurable
-profile options are separated in another class, and ads variation to the base class.
+* The new EmployeeGeneration standing in for the Facade pattern is in the utilities
+folder as per the requirements, including the decorator pattern for now, which, to be
+honest, is a questionable practice at best.
 
 ``` java
 private EmployeeProfile(Builder builder) {
         this.address = builder.address;
         this.contactNumber = builder.contactNumber;
     }
-
+ 
     public static class Builder {
         private String address;
         private String contactNumber;
@@ -115,12 +114,84 @@ private EmployeeProfile(Builder builder) {
         }
     }
 ```
+* The last one I added was the Adapter pattern, which conceptually, is for the case
+when, for example, this company collaborates with external employees that have a differently
+declared type, and the adapter is meant to include those in the company's system. In this case,
+the Employee will have an ID instead of the type
+
+``` java
+private String externalName;
+    private String employeeId;
+
+    public ExternalEmployee(String externalName, String employeeId) {
+        this.externalName = externalName;
+        this.employeeId = employeeId;
+    }
+
+```
+* The adaption happens in the ExternalEmployeeAdapter, and is further used in the EmployeeGeneration file,
+which is my Facade, and helps integrate it into the system.
+
+``` java
+private ExternalEmployee externalEmployee;
+
+    public ExternalEmployeeAdapter(ExternalEmployee newEmployee) {
+        super(newEmployee.getExternalName());
+        this.externalEmployee = newEmployee;
+    }
+
+    @Override
+    public void showDetails() {
+        System.out.println("External Employee ID: " + externalEmployee.getEmployeeId());
+        System.out.println("External Employee Name: " + getName());
+    }
+    
+// in EmployeeGeneration aka my Facade
+public void createAndAddNewEmployee(ExternalEmployee externalEmployee) {
+
+        Employee adaptedEmployee = new ExternalEmployeeAdapter(externalEmployee);
+        hrManager.addEmployee(adaptedEmployee);
+        adaptedEmployee.showDetails();
+```
 
 
+
+
+
+I still have a couple of bugs with the printout,
+but overall, the system works pretty well as a whole, here is the output:
+``` 
+Profile created: Name: Diana, Type: Part-Time, Address: null, Contact: 555-5678
+Employee added: Diana
+Profile created: Name: Eve, Type: Full-Time, Address: 101 Elm St, Contact: null
+Employee added: Eve
+
+
+Employee added: Charlie
+External Employee ID: EXT-001
+External Employee Name: Charlie
+Full-Time Employee: Diana
+Additional Benefit: Health Insurance
+Additional Benefit: Retirement Plan
+Part-Time Employee: Eve
+Additional Benefit: Health Insurance
+External Employee ID: EXT-001
+External Employee Name: Charlie
+
+All Employees via Facade:
+Full-Time Employee: Diana
+Additional Benefit: Health Insurance
+Additional Benefit: Retirement Plan
+Part-Time Employee: Eve
+Additional Benefit: Health Insurance
+External Employee ID: EXT-001
+External Employee Name: Charlie
+
+```
 ## Conclusions
-This simple implementation of 3 CDPs led to my understanding of them, how they work, and for what purpose they are used.
-Those patterns make creating an object easier, more intuitive, and help ease future modifications that
-the code may need, while also hiding implementations. Overall, pretty cool topic, obviously implemented in way more difficult
-ways at higher levels, but this was interesting for a base understanding.
+The implementation of those SDPs, let to a higher understanding of both the previous project structure,
+possible improvements and interesting possibilities. I had a bit of trouble understanding the difference
+a bit between some of them, specifically the Builder and the Decorator, but some research made it pretty clear.
+The Facade is pretty straightforward honestly, but I feel I still have room to improve with the Adapter.
 
 
