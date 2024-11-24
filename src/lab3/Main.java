@@ -1,25 +1,20 @@
 package lab3;
-import lab3.EmployeeTypes.ExternalEmployee;
-import lab3.Utilities.EmployeeGeneration;
+
+import lab3.EmployeeActions.*;
+import lab3.EmployeeTypes.*;
 
 public class Main {
     public static void main(String[] args) {
 
-        // Moved everything into the factory
-        EmployeeGeneration facade = new EmployeeGeneration();
-        facade.createAndAddEmployee("FullTime", "Diana", null, "555-5678");
-        facade.createAndAddEmployee("PartTime", "Eve", "101 Elm St", null);
-        System.out.println();
-        ExternalEmployee externalEmployee = new ExternalEmployee("Charlie", "EXT-001");
 
-        System.out.println();
-        facade.createAndAddNewEmployee(externalEmployee);
-        facade.displayAllEmployees();
-        System.out.println("\nAll Employees via Facade:");
-        facade.displayAllEmployees();
-
-
-
-
+        HRManager hrManager = HRManager.getInstance();
+        Invoker invoker = new Invoker();
+        Employee fullTimeEmployee = new FullTimeEmployee("Diana");
+        Employee partTimeEmployee = new PartTimeEmployee("Eve");
+        Command addFullTimeEmployee = new AddEmployeeCommand(hrManager, fullTimeEmployee);
+        Command addPartTimeEmployee = new AddEmployeeCommand(hrManager, partTimeEmployee);
+        invoker.executeCommand(addFullTimeEmployee);
+        invoker.executeCommand(addPartTimeEmployee);
+        hrManager.showAllEmployees();
     }
 }

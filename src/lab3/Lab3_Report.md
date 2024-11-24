@@ -7,46 +7,38 @@
 
 ## Objectives:
 
-* Extend your project and implement at least 3 SDPs;
-* Keep the files grouped by their responsibilities;
-* Keep it to one client;
+* Study and understand the Behavioral Design Patterns.
+* As a continuation of the previous laboratory work, think about what communication between software entities might be involed in your system.
+* Implement some additional functionalities using behavioral design patterns.
 
 ## Theoretical Background:
-In software engineering, the Structural Design Patterns are concerned with how classes and objects are composed to form larger structures. Structural class patterns use inheritance to create a hierarchy of classes/abstractions, but the structural object patterns use composition which is generally a more flexible alternative to inheritance.
+In software engineering, behavioral design patterns have the purpose of identifying common communication patterns between different software entities. By doing so, these patterns increase flexibility in carrying out this communication.
 
-Some examples of from this category of design patterns are:
+Some examples from this category of design patterns are :
 
-* Adapter
-* Bridge
-* Composite
-* Decorator
-* Facade
-* Flyweight
-* Proxy
+Chain of Responsibility
+Command
+Interpreter
+Iterator
+Mediator
+Observer
+Strategy
 
-## Used Design Patterns:
+## Used Behavioral Pattern:
 
-* Decorator
-* Singleton Method
-* Builder
+* Command
 
 
 ## Implementation
 
 * Continuing on the implementation of the previous Employee Management System,
-I started with adding the Decorator Pattern, which extends the Employee class and makes
-use of its already existing methods.
+I started with adding the Command class, which is like a starting point for all
+command classes, but keeps them separated from the invoker, not providing it any
+more data than it really needs.
 ``` java
-public abstract class EmployeeDecorator extends Employee {
-    protected Employee decoratedEmployee;
-
-    public EmployeeDecorator(Employee employee) {
-        super(employee.getName());
-        this.decoratedEmployee = employee;
-    }
-    @Override
-    public abstract void showDetails();
-    
+public interface Command {
+    void execute();
+}
 }
 ```
 While similar to the builder, a decorator adds flavour  on top, which in this case are the Retirement and Health Insurance plans. Usually, the
@@ -68,130 +60,58 @@ public class EmployeeHealthInsurance extends EmployeeDecorator {
 }
 ```
 
-* Everything in my program got a little cluttered by this point, with a bunch of import statements,
-new employee creations in the program, so it makes sense to implement the Facade Pattern and make
-everything in the main file(the client), a little more simplified. I also added the name and type to the builder,
-to make the print a little more detailed.
-
-New main with less clutter:
-``` java
-EmployeeGeneration facade = new EmployeeGeneration();
-        facade.createAndAddEmployee("FullTime", "Diana", null, "555-5678");
-        facade.createAndAddEmployee("PartTime", "Eve", "101 Elm St", null);
-
-        System.out.println("\nAll Employees via Facade:");
-        facade.displayAllEmployees();
-
-
-```
-
-* The new EmployeeGeneration standing in for the Facade pattern is in the utilities
-folder as per the requirements, including the decorator pattern for now, which, to be
-honest, is a questionable practice at best.
+* The next class, AddEmployeeCommand actually adds the employees, my making an instance
+of HR manager, I suppose it also helps with hiding the execution of the program from
+the client and keeping everything abstract. We can theoretically make each action
+into a command action.
 
 ``` java
-private EmployeeProfile(Builder builder) {
-        this.address = builder.address;
-        this.contactNumber = builder.contactNumber;
-    }
- 
-    public static class Builder {
-        private String address;
-        private String contactNumber;
+public class AddEmployeeCommand implements Command {
+    private HRManager hrManager;
+    private Employee employee;
 
-        public Builder address(String address) {
-            this.address = address;
-            return this;
-        }
-
-        public Builder contactNumber(String contactNumber) {
-            this.contactNumber = contactNumber;
-            return this;
-        }
-
-        public EmployeeProfile build() {
-            return new EmployeeProfile(this);
-        }
-    }
-```
-* The last one I added was the Adapter pattern, which conceptually, is for the case
-when, for example, this company collaborates with external employees that have a differently
-declared type, and the adapter is meant to include those in the company's system. In this case,
-the Employee will have an ID instead of the type
-
-``` java
-private String externalName;
-    private String employeeId;
-
-    public ExternalEmployee(String externalName, String employeeId) {
-        this.externalName = externalName;
-        this.employeeId = employeeId;
-    }
-
-```
-* The adaption happens in the ExternalEmployeeAdapter, and is further used in the EmployeeGeneration file,
-which is my Facade, and helps integrate it into the system.
-
-``` java
-private ExternalEmployee externalEmployee;
-
-    public ExternalEmployeeAdapter(ExternalEmployee newEmployee) {
-        super(newEmployee.getExternalName());
-        this.externalEmployee = newEmployee;
+    public AddEmployeeCommand(HRManager hrManager, Employee employee) {
+        this.hrManager = hrManager;
+        this.employee = employee;
     }
 
     @Override
-    public void showDetails() {
-        System.out.println("External Employee ID: " + externalEmployee.getEmployeeId());
-        System.out.println("External Employee Name: " + getName());
+    public void execute() {
+        hrManager.addEmployee(employee);
     }
-    
-// in EmployeeGeneration aka my Facade
-public void createAndAddNewEmployee(ExternalEmployee externalEmployee) {
+}
 
-        Employee adaptedEmployee = new ExternalEmployeeAdapter(externalEmployee);
-        hrManager.addEmployee(adaptedEmployee);
-        adaptedEmployee.showDetails();
+```
+
+* Invoker - the thing that actually triggers the commands, executing them, having
+a commandHistory that we can set up to view logs in case we need to, and it overall 
+separates the execution logic from the client code(main), adding to the point
+I made earlier
+
+``` java
+public class EmployeeInvoker {
+    private List<Command> commandHistory = new ArrayList<>();
+
+    public void executeCommand(Command command) {
+        command.execute();
+        commandHistory.add(command);
+    }
+}
 ```
 
 
-
-
-
-I still have a couple of bugs with the printout,
-but overall, the system works pretty well as a whole, here is the output:
+The execution print stays pretty similar.
 ``` 
-Profile created: Name: Diana, Type: Part-Time, Address: null, Contact: 555-5678
 Employee added: Diana
-Profile created: Name: Eve, Type: Full-Time, Address: 101 Elm St, Contact: null
 Employee added: Eve
-
-
-Employee added: Charlie
-External Employee ID: EXT-001
-External Employee Name: Charlie
 Full-Time Employee: Diana
-Additional Benefit: Health Insurance
-Additional Benefit: Retirement Plan
 Part-Time Employee: Eve
-Additional Benefit: Health Insurance
-External Employee ID: EXT-001
-External Employee Name: Charlie
-
-All Employees via Facade:
-Full-Time Employee: Diana
-Additional Benefit: Health Insurance
-Additional Benefit: Retirement Plan
-Part-Time Employee: Eve
-Additional Benefit: Health Insurance
-External Employee ID: EXT-001
-External Employee Name: Charlie
-
 ```
 ## Conclusions
-The implementation of those SDPs, let to a higher understanding of both the previous project structure,
-possible improvements and interesting possibilities. I had a bit of trouble understanding the difference
-a bit between some of them, specifically the Builder and the Decorator, but some research made it pretty clear.
-The Facade is pretty straightforward honestly, but I feel I still have room to improve with the Adapter.
+This is honestly really similar to the Facade pattern, but I guess it's main point is not hiding the execution, but rather
+to make every request an object to later maybe handle it, either by ignoring it, executing it, deleting it or just keeping logs.
+The abstraction part is just a side effect. Also, implementing this was time sensitive for me, so I did sacrifice the Facade pattern
+to have this in time.
+
 
 

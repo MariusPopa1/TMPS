@@ -1,12 +1,10 @@
 package lab3.Utilities;
-
-import lab3.EmployeeActions.EmployeeFactory;
-import lab3.EmployeeActions.ExternalEmployeeAdapter;
-import lab3.EmployeeActions.HRManager;
+import lab3.EmployeeActions.*;
 import lab3.EmployeeAdditionalBenefits.EmployeeHealthInsurance;
 import lab3.EmployeeAdditionalBenefits.EmployeeRetirementPlan;
 import lab3.EmployeeTypes.Employee;
 import lab3.EmployeeTypes.ExternalEmployee;
+
 
 public class EmployeeGeneration {
     private final HRManager hrManager = HRManager.getInstance();
